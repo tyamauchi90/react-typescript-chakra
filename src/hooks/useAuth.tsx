@@ -20,8 +20,19 @@ export const useAuth = () => {
             setLoading(false);
             showMessage({ title: "ユーザーが見つかりません", status: "error" });
           } else {
-            setLoginUser(res.data);
-            showMessage({ title: "ログインしました", status: "success" });
+            const isAdmin = res.data.id === 10 ? true : false;
+            setLoginUser({ ...res.data, isAdmin });
+            {
+              isAdmin
+                ? showMessage({
+                    title: "管理者としてログインしました",
+                    status: "success",
+                  })
+                : showMessage({
+                    title: "一般ユーザーとしてログインしました",
+                    status: "success",
+                  });
+            }
             setLoading(false);
             navigation("/home");
           }

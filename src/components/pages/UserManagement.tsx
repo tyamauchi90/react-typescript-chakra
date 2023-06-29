@@ -11,14 +11,13 @@ import { UserCard } from "../organisms/user/UserCard";
 import { useAllUsers } from "../../hooks/useAllUsers";
 import { UserDetailModal } from "../organisms/user/userDetailModal";
 import { useSelectUser } from "../../hooks/useSelectUser";
-// import { useLoginUser } from "../../hooks/useLoginUser";
+import { useLoginUser } from "../../hooks/useLoginUser";
 
 export const UserManagement: React.FC = memo(() => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const { getUsers, users, loading } = useAllUsers();
   const { onSelectUser, selectedUser } = useSelectUser();
-  // const { loginUser } = useLoginUser();
-  // console.log(loginUser);
+  const { loginUser } = useLoginUser();
 
   useEffect(() => getUsers(), []);
 
@@ -49,7 +48,12 @@ export const UserManagement: React.FC = memo(() => {
           ))}
         </Wrap>
       )}
-      <UserDetailModal user={selectedUser} isOpen={isOpen} onClose={onClose} />
+      <UserDetailModal
+        user={selectedUser}
+        isOpen={isOpen}
+        onClose={onClose}
+        isAdmin={loginUser?.isAdmin}
+      />
     </>
   );
 });
